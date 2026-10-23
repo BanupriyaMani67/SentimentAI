@@ -1,0 +1,14 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.git/
+.gitignore
+.env
+.vscode/
+tests/
+README.md
+# Model artifacts are re-created by train_model.py inside the image
+model/*.joblib
+model/metrics.json

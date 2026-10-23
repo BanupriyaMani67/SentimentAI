@@ -1,0 +1,20 @@
+# OPTIONAL Render "Blueprint". You can also create both services by hand in the dashboard
+# (see README). Verify field names against Render's current docs before relying on this file.
+services:
+  - type: web
+    name: sentimentai-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /health
+
+  - type: web
+    name: sentimentai-frontend
+    runtime: docker
+    dockerfilePath: ./Dockerfile.frontend
+    plan: free
+    envVars:
+      - key: API_URL
+        value: https://REPLACE-WITH-YOUR-API-URL.onrender.com
+      - key: API_TIMEOUT
+        value: "90"

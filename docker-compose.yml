@@ -1,0 +1,28 @@
+# Run both services locally:  docker compose up --build
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"          # backend  -> http://localhost:8000
+    environment:
+      PORT: "8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "8501:8501"          # frontend -> http://localhost:8501
+    environment:
+      PORT: "8501"
+      API_URL: "http://api:8000"   # service name, not localhost, inside Docker
+    depends_on:
+      api:
+        condition: service_healthy
